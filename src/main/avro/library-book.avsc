@@ -1,0 +1,28 @@
+{
+	"namespace": "net.bolbat.snippets.serialization.avro.library",
+	"type": "record",
+	"name": "Book",
+	"fields": [{
+			"name": "id",
+			"type": "string"
+		},
+		{
+			"name": "name",
+			"type": "string"
+		},
+		{
+			"name": "authors",
+			"type": {
+				"type": "array",
+				"items": "string"
+			}
+		},
+		{
+			"name": "categories",
+			"type": {
+				"type": "array",
+				"items": "string"
+			}
+		}		
+	]
+}

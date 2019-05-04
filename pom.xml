@@ -1,0 +1,125 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+	<modelVersion>4.0.0</modelVersion>
+	<groupId>net.bolbat.snippets</groupId>
+	<artifactId>serialization-avro</artifactId>
+	<version>0.1-SNAPSHOT</version>
+	<name>Snippets for Avro Serialization</name>
+	<description>Snippets for Avro Serialization</description>
+
+	<parent>
+		<groupId>net.bolbat</groupId>
+		<artifactId>bb-parent</artifactId>
+		<version>15</version>
+	</parent>
+
+	<properties>
+		<!-- Logging dependencies -->
+		<bb-logging-bom.version>0.1</bb-logging-bom.version>
+
+		<!-- Avro dependencies -->
+		<avro.version>1.8.2</avro.version>
+		<avro.source.directory>${project.basedir}/src/main/avro/</avro.source.directory>
+		<avro.output.directory>${project.build.directory}/generated-sources/avro/java/</avro.output.directory>
+
+		<!-- Testing dependencies -->
+		<bb-test.version>0.1.0</bb-test.version>
+
+		<!-- Plugins dependencies -->
+		<build-helper-maven-plugin.version>3.0.0</build-helper-maven-plugin.version>
+	</properties>
+
+	<dependencyManagement>
+		<dependencies>
+			<!-- Logging dependencies -->
+			<dependency>
+				<groupId>net.bolbat</groupId>
+				<artifactId>bb-logging-bom</artifactId>
+				<version>${bb-logging-bom.version}</version>
+				<type>pom</type>
+				<scope>import</scope>
+			</dependency>
+		</dependencies>
+	</dependencyManagement>
+
+	<dependencies>
+		<!-- Common dependencies -->
+		<dependency>
+			<groupId>org.slf4j</groupId>
+			<artifactId>slf4j-api</artifactId>
+		</dependency>
+
+		<!-- Avro dependencies -->
+		<dependency>
+			<groupId>org.apache.avro</groupId>
+			<artifactId>avro</artifactId>
+			<version>${avro.version}</version>
+		</dependency>
+
+		<!-- Testing dependencies -->
+		<dependency>
+			<groupId>net.bolbat</groupId>
+			<artifactId>bb-test</artifactId>
+			<version>${bb-test.version}</version>
+			<scope>test</scope>
+		</dependency>
+	</dependencies>
+
+	<build>
+		<pluginManagement>
+			<plugins>
+				<plugin>
+					<groupId>org.apache.avro</groupId>
+					<artifactId>avro-maven-plugin</artifactId>
+					<version>${avro.version}</version>
+				</plugin>
+
+				<plugin>
+					<groupId>org.codehaus.mojo</groupId>
+					<artifactId>build-helper-maven-plugin</artifactId>
+					<version>${build-helper-maven-plugin.version}</version>
+				</plugin>
+			</plugins>
+		</pluginManagement>
+
+		<plugins>
+			<plugin>
+				<groupId>org.apache.avro</groupId>
+				<artifactId>avro-maven-plugin</artifactId>
+				<executions>
+					<execution>
+						<phase>generate-sources</phase>
+						<goals>
+							<goal>schema</goal>
+						</goals>
+						<configuration>
+							<sourceDirectory>${avro.source.directory}</sourceDirectory>
+							<outputDirectory>${avro.output.directory}</outputDirectory>
+						</configuration>
+					</execution>
+				</executions>
+			</plugin>
+
+			<plugin>
+				<groupId>org.codehaus.mojo</groupId>
+				<artifactId>build-helper-maven-plugin</artifactId>
+				<executions>
+					<execution>
+						<id>add-source</id>
+						<phase>generate-sources</phase>
+						<goals>
+							<goal>add-source</goal>
+						</goals>
+						<configuration>
+							<sources>
+								<source>${avro.source.directory}</source>
+								<source>${avro.output.directory}</source>
+							</sources>
+						</configuration>
+					</execution>
+				</executions>
+			</plugin>
+		</plugins>
+	</build>
+
+</project>

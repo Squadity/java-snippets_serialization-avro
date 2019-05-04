@@ -1,0 +1,14 @@
+{
+	"namespace": "net.bolbat.snippets.serialization.avro.library",
+	"type": "record",
+	"name": "Author",
+	"fields": [{
+			"name": "id",
+			"type": "string"
+		},
+		{
+			"name": "name",
+			"type": "string"
+		}
+	]
+}
